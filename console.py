@@ -41,39 +41,54 @@ class HBNBCommand(cmd.Cmd):
         """
         Create a BaseModel Object
         """
-        if obj:
-            if (obj == "BaseModel"):
-                mod = BaseModel()
-                mod.save()
-                print(mod.id)
-            elif (obj == "User"):
-                mod = User()
-                mod.save()
-                print(mod.id)
-            elif (obj == "Place"):
-                mod = Place()
-                mod.save()
-                print(mod.id)
-            elif (obj == "State"):
-                mod = State()
-                mod.save()
-                print(mod.id)
-            elif (obj == "City"):
-                mod = City()
-                mod.save()
-                print(mod.id)
-            elif (obj == "Amenity"):
-                mod = Amenity()
-                mod.save()
-                print(mod.id)
-            elif (obj == "Review"):
-                mod = Review()
-                mod.save()
-                print(mod.id)
-            else:
-                print("** class doesn't exist **")
-        else:
+        all_classes = [
+               "BaseModel", "User", "Place", "State",
+               "City", "Amenity", "Review"]
+
+        args = obj.split()
+
+        if len(args) == 0:
             print("** class name missing **")
+            return
+
+        class_name = args[0]
+
+        if class_name not in all_classes:
+            print("** class doesn't exist **")
+            return
+
+        args = args[1:]
+
+        if len(args) == 0:
+            obj = globals()[class_name]()
+            obj.save()
+            print(obj.id)
+            return
+
+        params = {}
+        for param in args:
+            key_value = param.split('=')
+            if len(key_value) == 2:
+                key, value = key_value
+                if value.startswith('"') and value.endswith('"'):
+                    value = value[1:-1].replace('_', ' ').replace('\\"', '"')
+                elif '.' in value and all(
+                    part.isdigit() or
+                    (part.startswith('-') and part[1:].isdigit())
+                    for part in value.split('.')
+                ):
+                    value = float(value)
+                elif value.isdigit() or
+                (value[0] == '-' and value[1:].isdigit()):
+                    value = int(value)
+                else:
+                    continue
+
+                params[key] = value
+
+        obj = globals()[class_name](**params)
+        obj.save()
+        print(obj.id)
 
     def do_show(self, arg):
         """
