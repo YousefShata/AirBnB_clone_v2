@@ -18,6 +18,15 @@ class HBNBCommand(cmd.Cmd):
     HBNB class
     """
     prompt = '(hbnb) '
+    classes = {
+        "BaseModel": BaseModel,
+        "User": User,
+        "Place": Place,
+        "State": State,
+        "City": City,
+        "Amenity": Amenity,
+        "Review": Review,
+    }
 
     def do_quit(self, line):
         """
@@ -60,7 +69,7 @@ class HBNBCommand(cmd.Cmd):
         args = args[1:]
 
         if len(args) == 0:
-            obj = globals()[class_name]()
+            obj = self.classes[class_name]()
             obj.save()
             print(obj.id)
             return
@@ -90,7 +99,7 @@ class HBNBCommand(cmd.Cmd):
 
                 params[key] = value
 
-        obj = globals()[class_name](**params)
+        obj = self.classes[class_name](**params)
         obj.save()
         print(obj.id)
 
