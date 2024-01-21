@@ -73,14 +73,18 @@ class HBNBCommand(cmd.Cmd):
                 if value.startswith('"') and value.endswith('"'):
                     value = value[1:-1].replace('_', ' ').replace('\\"', '"')
                 elif '.' in value and all(
-                    part.isdigit() or
-                    (part.startswith('-') and part[1:].isdigit())
+                    part.isdigit()
+                    or (part.startswith('-') and part[1:].isdigit())
                     for part in value.split('.')
                 ):
                     value = float(value)
-                elif value.isdigit() or
-                (value[0] == '-' and value[1:].isdigit()):
+
+                elif (
+                    value.isdigit() or
+                    (value[0] == '-' and value[1:].isdigit())
+                ):
                     value = int(value)
+
                 else:
                     continue
 
