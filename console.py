@@ -28,6 +28,40 @@ class HBNBCommand(cmd.Cmd):
         "Review": Review,
     }
 
+    valid_keys = {
+        "BaseModel": ["id", "created_at", "updated_at"],
+        "User": [
+            "id",
+            "created_at",
+            "updated_at",
+            "email",
+            "password",
+            "first_name",
+            "last_name",
+        ],
+        "City": ["id", "created_at", "updated_at", "state_id", "name"],
+        "State": ["id", "created_at", "updated_at", "name"],
+        "Place": [
+            "id",
+            "created_at",
+            "updated_at",
+            "city_id",
+            "user_id",
+            "name",
+            "description",
+            "number_rooms",
+            "number_bathrooms",
+            "max_guest",
+            "price_by_night",
+            "latitude",
+            "longitude",
+            "amenity_ids"
+        ],
+        "Amenity": ["id", "created_at", "updated_at", "name"],
+        "Review": ["id", "created_at", "updated_at",
+                   "place_id", "user_id", "text"],
+    }
+
     def do_quit(self, line):
         """
         Quit the cmd
@@ -74,11 +108,14 @@ class HBNBCommand(cmd.Cmd):
             print(obj.id)
             return
 
-        params = {}
+        obj = self.classes[class_name]()
         for param in args:
             key_value = param.split('=')
             if len(key_value) == 2:
                 key, value = key_value
+                if key not in HBNBCommand.valid_keys[class_name]:
+                    continue
+
                 if value.startswith('"') and value.endswith('"'):
                     value = value[1:-1].replace('_', ' ').replace('\\"', '"')
                 elif '.' in value and all(
@@ -94,12 +131,11 @@ class HBNBCommand(cmd.Cmd):
                 ):
                     value = int(value)
 
-                else:
-                    continue
+                if value is not None:
+                    setattr(obj, key, value)
+            else:
+                pass
 
-                params[key] = value
-
-        obj = self.classes[class_name](**params)
         obj.save()
         print(obj.id)
 
