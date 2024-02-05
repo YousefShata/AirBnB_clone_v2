@@ -17,6 +17,10 @@ html_content="<html>
 
 echo "$html_content" > /data/web_static/releases/test/index.html
 
+current_link="/data/web_static/current"
+
+
+
 if [ -L "$current_link" ]; then
     sudo rm "$current_link"
 fi
