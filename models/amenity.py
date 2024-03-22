@@ -2,12 +2,12 @@
 """
 Amenity Model
 """
-from models.base_model import BaseModel
-
+from models.base_model import BaseModel, Base
+from sqlalchemy import Column, String, ForeignKey
 
 class Amenity(BaseModel):
     """
     Amenity Class
     """
-
-    name = ""
+    __tablename__ = 'amenities'
+    name = Column(String(128), nullable=False)
