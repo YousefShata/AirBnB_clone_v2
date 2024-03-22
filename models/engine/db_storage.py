@@ -43,16 +43,18 @@ class DBStorage:
 
     def all(self, cls=None):
         """return all data"""
-
+        
+        all_classes = [User, Place, State, City, Amenity, Review]
         cls_dict = {}
         if cls is None:
-            for records in __session.quary(User, State, City, Amenity, Place, Review).all():
-                className = record.__class__.__name__
-                key = className+ "." + records.id
-                cls_dict[key] = records
+            for entry in all_classes:
+                for records in self.__session.query(entry).all():
+                    className = records.__class__.__name__
+                    key = className+ "." + records.id
+                    cls_dict[key] = records
         else:
-             for records in __session.quary(cls).all():
-                className = record.__class__.__name__
+             for records in self.__session.query(cls).all():
+                className = records.__class__.__name__
                 key = className+ "." + records.id
                 cls_dict[key] = records
 
