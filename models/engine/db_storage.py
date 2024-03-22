@@ -4,7 +4,7 @@ DBStorage Module
 """
 from sqlalchemy import (create_engine)
 import os
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
 from models.user import User
 from models.state import State
 from models.city import City
@@ -32,13 +32,13 @@ class DBStorage:
 
         self.__engine = create_engine(
                'mysql+mysqldb://{}:{}@{}/{}'
-               .format(user,
-                       password,
-                       host,
-                       db),
+               .format(self.user,
+                       self.password,
+                       self.host,
+                       self.database),
                pool_pre_ping=True)
 
-        if (env = "test")
+        if self.env == "test":
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
@@ -46,12 +46,12 @@ class DBStorage:
 
         cls_dict = {}
         if cls is None:
-            for records in __session.quary(User, State, City, Amenity, Place, Review).all()
+            for records in __session.quary(User, State, City, Amenity, Place, Review).all():
                 className = record.__class__.__name__
                 key = className+ "." + records.id
                 cls_dict[key] = records
-         else:
-            for records in __session.quary(cls).all()
+        else:
+             for records in __session.quary(cls).all():
                 className = record.__class__.__name__
                 key = className+ "." + records.id
                 cls_dict[key] = records
