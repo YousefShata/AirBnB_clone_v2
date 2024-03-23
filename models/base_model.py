@@ -16,7 +16,7 @@ class BaseModel:
     BaseModel Class which will be inharited
     """
 
-    id = Column(String(60), nullable=False, primary_key=True)
+    id = Column(String(60), nullable=False, primary_key=True, unique=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow)
     def __init__(self, *args, **kwargs):

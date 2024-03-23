@@ -44,7 +44,7 @@ class DBStorage:
     def all(self, cls=None):
         """return all data"""
         
-        all_classes = [User, Place, State, City, Amenity, Review]
+        all_classes = [State, City]
         cls_dict = {}
         if cls is None:
             for entry in all_classes:
@@ -53,10 +53,10 @@ class DBStorage:
                     key = className+ "." + records.id
                     cls_dict[key] = records
         else:
-             for records in self.__session.query(cls).all():
-                className = records.__class__.__name__
-                key = className+ "." + records.id
-                cls_dict[key] = records
+                for records in self.__session.query(cls).all():
+                    className = records.__class__.__name__
+                    key = className+ "." + records.id
+                    cls_dict[key] = records
 
         return cls_dict
 
