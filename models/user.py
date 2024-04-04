@@ -5,7 +5,7 @@ User Model
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey
 
-class User(BaseModel):
+class User(BaseModel, Base):
     """
     User Class
     """

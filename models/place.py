@@ -6,7 +6,7 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer, Float
 from sqlalchemy import ForeignKey
 
-class Place(BaseModel):
+class Place(BaseModel, Base):
     """
     Place Class
     """

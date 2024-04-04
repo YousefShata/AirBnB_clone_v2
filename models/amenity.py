@@ -5,7 +5,7 @@ Amenity Model
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey
 
-class Amenity(BaseModel):
+class Amenity(BaseModel, Base):
     """
     Amenity Class
     """
