@@ -61,6 +61,8 @@ class BaseModel:
         returns a dictionary containing all keys/values
         """
         dic = self.__dict__.copy()
+        if dic.get("_sa_instance_state") is not None:
+            dic.pop('_sa_instance_state', None)
         dic["__class__"] = type(self).__name__
         dic["created_at"] = self.created_at.isoformat()
         dic["updated_at"] = self.updated_at.isoformat()
