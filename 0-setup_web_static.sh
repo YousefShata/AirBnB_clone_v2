@@ -26,11 +26,14 @@ sudo ln -s /data/web_static/releases/test/ "$current_link"
 
 sudo chown -R ubuntu:ubuntu /data/
 
-nginx_config="/etc/nginx/sites-available/default"
+echo 'server {
+	listen 80 default_server;
+	listen [::]:80;
 
-echo "location /hbnb_static/ {
-    alias /data/web_static/current/;
-    index index.html index.htm;  # Add this line if necessary
-}" | sudo tee -a "$nginx_config" >/dev/null
+	location hbnb_static {
+		alias /data/web_static/current/;
+
+	}
+}' > /etc/nginx/sites-available/default
 
 sudo service nginx restart
