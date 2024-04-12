@@ -27,6 +27,7 @@ def do_pack():
     else:
         return file_name
 
+
 def do_deploy(archive_path):
     """
     Deploy data
@@ -35,7 +36,7 @@ def do_deploy(archive_path):
     if archive_path is None:
         return False
 
-     try:
+    try:
         filename = archive_path.split("/")[-1]
         folder_name = filename.split(".")[0]
         full_path = "/data/web_static/releases/{}/".format(folder_name)
@@ -49,6 +50,5 @@ def do_deploy(archive_path):
         run("rm -rf /data/web_static/current")
         run("ln -s {} /data/web_static/current".format(full_path))
         return True
-    except:
+    except Exception as e:
         return False
-
