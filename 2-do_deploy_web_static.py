@@ -6,7 +6,7 @@ from datetime import datetime
 Pack web static
 """
 
-
+env.key_filename = '~/.ssh/school'
 env.hosts = ['54.146.89.31', '100.25.0.160']
 
 
