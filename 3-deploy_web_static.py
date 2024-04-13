@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 from fabric.api import env, task, put, local, run
+from os.path import isdir
 from datetime import datetime
 """
 Pack web static
@@ -14,19 +15,18 @@ def do_pack():
     """
     compressing data
     """
+    
+    try:
+        local("mkdir -p versions") 
+        time_now = datetime.now()
+        time = time_now.strftime("%Y%m%d%H%M%S")
+        file_name = "versions/web_static_{}.tgz".format(time)
 
-    local("mkdir -p versions")
-    time_now = datetime.now()
-    time = time_now.strftime("%Y%m%d%H%M%S")
-    file_name = "versions/web_static_{}.tgz".format(time)
+        local("tar -cvzf {} web_static".format(file_name))
 
-    final = local("tar -cvzf {} web_static".format(file_name))
-
-    if final.failed:
-        return None
-    else:
         return file_name
-
+    except Exception:
+        return None
 
 def do_deploy(archive_path):
     """
@@ -49,7 +49,7 @@ def do_deploy(archive_path):
         run("rm -rf {}web_static".format(full_path))
         run("rm -rf /data/web_static/current")
         run("ln -s {} /data/web_static/current".format(full_path))
-        printf("New version deployed!")
+        print("New version deployed!")
 
         return True
     except Exception as e:
