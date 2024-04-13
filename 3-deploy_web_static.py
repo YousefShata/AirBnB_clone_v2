@@ -53,6 +53,7 @@ def do_deploy(archive_path):
     except Exception as e:
         return False
 
+
 def deploy():
     """
     Full deploy
