@@ -14,7 +14,7 @@ html_content="<html>
 <body><h1>Fake Hello World</h1></body>
 </html>"
 
-echo "$html_content" | sudo tee /data/web_static/releases/test/index.html >/dev/null
+echo "$html_content" | sudo tee /data/web_static/releases/test/my_index.html >/dev/null
 
 current_link="/data/web_static/current"
 

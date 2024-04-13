@@ -15,18 +15,16 @@ def do_pack():
     """
     compressing data
     """
-    
-    try:
-        local("mkdir -p versions") 
-        time_now = datetime.now()
-        time = time_now.strftime("%Y%m%d%H%M%S")
-        file_name = "versions/web_static_{}.tgz".format(time)
 
-        local("tar -cvzf {} web_static".format(file_name))
+    local("mkdir -p versions")
+    time_now = datetime.now()
+    time = time_now.strftime("%Y%m%d%H%M%S")
+    file_name = "versions/web_static_{}.tgz".format(time)
 
-        return file_name
-    except Exception:
-        return None
+    local("tar -cvzf {} web_static".format(file_name))
+
+    return file_name
+
 
 def do_deploy(archive_path):
     """
